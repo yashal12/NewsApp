@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from "react";
 import {
-  ScrollView,
+  FlatList,
   Image,
   Text,
   View,
-  ActivityIndicator,
   TouchableOpacity,
   StyleSheet,
+  Dimensions,
 } from "react-native";
 
+const { width } = Dimensions.get("window");
+
+// Component for displaying trending news
 function TrendingNews({ navigation }) {
+  // State to store news data
   const [newsData, setNewsData] = useState([]);
 
+  // Fetching trending news data from the API
   useEffect(() => {
     fetch(
       `https://gnews.io/api/v4/top-headlines?country=pk&apikey=17e3846c0655b3280c51ad059dcfcf4f`
@@ -23,74 +28,91 @@ function TrendingNews({ navigation }) {
       .catch((error) => console.error("Error:", error));
   }, []);
 
-  return (
-    <ScrollView
-      horizontal={true}
-      showsHorizontalScrollIndicator={false}
-      contentContainerStyle={styles.scrollViewContent}
+  // Render each news item
+  const renderItem = ({ item, index }) => (
+    <TouchableOpacity
+      key={index}
+      onPress={() => navigation.navigate("WebView", { url: item.url })}
     >
-      {newsData.map((news, index) => (
-        <TouchableOpacity
-          key={index}
-          onPress={() => navigation.navigate("WebView", { url: news.url })}
-        >
-          <View style={styles.newsContainer} key={index}>
-            <View style={styles.greenBox} />
-            <Image source={{ uri: `${news.image}` }} style={styles.image} />
-            <View style={styles.overlay} />
-            <View style={styles.titleContainer}>
-              <Text style={styles.title}>{news.title}</Text>
-            </View>
-          </View>
-        </TouchableOpacity>
-      ))}
-    </ScrollView>
+      <View style={styles.newsContainer} key={index}>
+        {/* Green Box for News Item */}
+        <View style={styles.greenBox} />
+
+        {/* Image for News Item */}
+        <Image source={{ uri: `${item.image}` }} style={styles.image} />
+
+        {/* Overlay for News Item */}
+        <View style={styles.overlay} />
+
+        {/* Title and Description Container */}
+        <View style={styles.contentContainer}>
+          <Text style={styles.title}>{item.title}</Text>
+          <Text style={styles.separator} />
+          <Text style={styles.description}>{item.description}</Text>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+
+  return (
+    <FlatList
+      data={newsData}
+      keyExtractor={(item, index) => index.toString()}
+      renderItem={renderItem}
+      vertical={true}
+      showsHorizontalScrollIndicator={false}
+    />
   );
 }
 
 const styles = StyleSheet.create({
-  scrollViewContent: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
   newsContainer: {
+    alignItems: "center",
+    justifyContent: "center",
     margin: 10,
-    position: "relative",
   },
   greenBox: {
     position: "absolute",
-    top: 0,
-    left: 0,
-    height: 240, // Adjust the height as needed
-    width: 220, // Adjust the width as needed (slightly wider than the image)
+    height: 440,
+    width: width * 0.9,
     backgroundColor: "#d0e0e3",
     borderRadius: 10,
   },
   image: {
-    height: 200,
-    width: 200,
+    height: 300,
+    width: width * 0.7,
     borderRadius: 10,
-    marginTop: 20, // Adjust the marginTop to leave space for the green box
+    marginTop: 20,
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: "rgba(255,255,255,0.2)",
     borderRadius: 10,
   },
-  titleContainer: {
+  contentContainer: {
     position: "absolute",
-    bottom: 0,
-    left: 0,
+    bottom: 70,
     padding: 10,
-    width: 200,
+    width: width * 0.7,
+    borderRadius: 10,
+    backgroundColor: "#bcbcbc",
   },
   title: {
-    width: "100%",
-    textAlign: "justify",
-    backgroundColor: "#bcbcbc",
+    textAlign: "center",
     padding: 5,
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
+    color: "black",
+  },
+  separator: {
+    height: 1,
+    marginVertical: 5,
+    borderTopWidth: 3,
+    borderTopColor: "#16537e",
+    alignSelf: "center", // Center the separator
+    width: "30%",
+  },
+  description: {
+    textAlign: "center",
+    padding: 5,
     color: "black",
   },
 });

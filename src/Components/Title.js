@@ -2,19 +2,23 @@ import React from "react";
 import { View, Text, StyleSheet, Platform } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 
+// Title component for displaying the app title, subtitle, and separator
 function Title() {
   return (
     <View style={styles.titleContainer}>
+      {/* App Title */}
       <Text style={styles.title}>Daily Dose</Text>
+
+      {/* Subtitle */}
       <Text style={styles.subtitle}>
         Unveiling Stories That Shape Our Nation
       </Text>
+
+      {/* Separator */}
       <View style={styles.separator}></View>
     </View>
   );
 }
-
-export default Title;
 
 const styles = StyleSheet.create({
   titleContainer: {
@@ -27,6 +31,7 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     fontSize: RFValue(38), // Use responsive font size
     color: "#16537e",
+    // Platform-specific styling for iOS and Android
     ...Platform.select({
       ios: {
         shadowColor: "#000",
@@ -53,6 +58,7 @@ const styles = StyleSheet.create({
     borderTopColor: "#16537e",
     width: "30%",
     alignSelf: "left",
+    // Platform-specific styling for iOS and Android
     ...Platform.select({
       ios: {
         shadowColor: "black",
@@ -69,3 +75,5 @@ const styles = StyleSheet.create({
     }),
   },
 });
+
+export default Title;

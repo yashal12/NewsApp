@@ -14,35 +14,46 @@ import pages from "../Components/SlidesData";
 import OnboardingItem from "../Components/OnboardingItem";
 import NextButton from "../Components/NextButton";
 
+// Get the width of the device window
 const windowWidth = Dimensions.get("window").width;
 
+// OnboardingScreen component for displaying onboarding slides
 function OnboardingScreen({ navigation }) {
+  // State to track the current index of the active slide
   const [currentIndex, setCurrentIndex] = useState(0);
+  // Animated value to track the scroll position
   const scrollX = useRef(new Animated.Value(0)).current;
+  // Ref for the FlatList component to enable programmatic control
   const slidesRef = useRef(null);
+
+  // Callback for viewable items change event
   const viewableItemsChanged = useRef(({ viewableItems }) => {
     setCurrentIndex(viewableItems[0].index);
   }).current;
+
+  // Configuration for determining which items are considered viewable
   const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
 
+  // Function to scroll to the next slide
   const scrollTo = () => {
-    //make sure button can move the slides forward
     if (currentIndex < pages.length - 1) {
-      // are there any slides left to go?
       slidesRef.current.scrollToIndex({ index: currentIndex + 1 });
     } else {
       console.log("Last item");
     }
   };
 
+  // Function to skip to the home screen
   const skipToHome = () => {
     navigation.navigate("StartScreen"); // Replace 'Home' with the actual name of your home screen
   };
 
   return (
     <View style={styles.container}>
+      {/* Title of the onboarding screen */}
       <Text style={styles.title}>Daily Dose</Text>
 
+      {/* Container for the FlatList of onboarding slides */}
       <View style={{ flex: 3 }}>
         <FlatList
           data={pages} // Array of data to be rendered
@@ -64,7 +75,11 @@ function OnboardingScreen({ navigation }) {
           ref={slidesRef} // Reference to the FlatList for programmatic control
         />
       </View>
+
+      {/* Paginator component to display pagination dots */}
       <Paginator data={pages} scrollX={scrollX} />
+
+      {/* NextButton component for navigation control */}
       <NextButton
         scrollTo={scrollTo}
         percentage={(currentIndex + 1) * (100 / pages.length)}

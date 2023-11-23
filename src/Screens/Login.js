@@ -11,27 +11,34 @@ import {
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 function Login({ navigation }) {
-  const [name, setName] = useState("");
+  // State variables for user input
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // Navigate to Home screen
   const handleLogin = () => {
     navigation.navigate("Home");
   };
+
+  // Navigate to Sign Up screen
   const handleSignUp = () => {
     navigation.navigate("SignUp");
   };
+
+  // Placeholder action for handling forgot password
   const handleForgotPassword = async () => {
     Alert.alert("Forgot Password");
   };
 
   return (
     <>
+      {/* Background Image */}
       <ImageBackground
         source={require("./img/newsBg2.jpg")}
         style={styles.backgroundImage}
       ></ImageBackground>
 
+      {/* Main Container */}
       <View style={styles.container}>
         <Text style={styles.title}>Login</Text>
 
@@ -74,13 +81,17 @@ function Login({ navigation }) {
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
 
+        {/* Sign Up and Forgot Password Links */}
         <View style={styles.SignUpContainer}>
           {/* Forgot Password Link */}
           <TouchableOpacity onPress={handleForgotPassword}>
             <Text style={styles.forgotPasswordLink}>Forgot Password?</Text>
           </TouchableOpacity>
+
+          {/* Spacer */}
           <View style={styles.spacer} />
-          {/* Sign UP Link */}
+
+          {/* Sign Up Link */}
           <TouchableOpacity onPress={handleSignUp}>
             <Text style={styles.SignUpLink}>Sign Up Instead!</Text>
           </TouchableOpacity>
@@ -90,6 +101,7 @@ function Login({ navigation }) {
   );
 }
 
+// Styles
 const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
@@ -107,7 +119,7 @@ const styles = StyleSheet.create({
     fontSize: 29,
     fontWeight: "900",
     marginBottom: 50,
-    color: "#16537e", // Set text color to white
+    color: "#16537e",
     marginTop: -155,
   },
   inputContainer: {
@@ -151,16 +163,16 @@ const styles = StyleSheet.create({
     color: "#16537e",
     fontWeight: "light",
     fontSize: 13,
-    textDecorationLine: "underline", // Underline text decoration
+    textDecorationLine: "underline",
   },
   forgotPasswordLink: {
-    color: "#16537e",
+    color: "red",
     fontSize: 13,
     marginRight: 10,
-    textDecorationLine: "underline", // Underline text decoration
+    textDecorationLine: "underline",
   },
   spacer: {
-    width: 60, // Add spacing between the links
+    width: 60,
   },
 });
 

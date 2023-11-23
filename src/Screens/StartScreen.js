@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Image, StyleSheet, Text, TouchableOpacity } from "react-native";
 
+// StartScreen component for the initial screen
 function StartScreen({ navigation }) {
   // Navigate to the sign-up screen
   const handleSignUp = () => {
@@ -22,6 +23,7 @@ function StartScreen({ navigation }) {
       <TouchableOpacity onPress={handleSignUp} style={styles.button}>
         <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
+      {/* Login Button */}
       <TouchableOpacity onPress={handleLogin} style={styles.button1}>
         <Text style={styles.buttonText1}>Login</Text>
       </TouchableOpacity>
@@ -32,9 +34,7 @@ function StartScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: "#b3d1ec",
     backgroundColor: "white",
-
     justifyContent: "center",
     alignItems: "center",
   },
@@ -59,23 +59,23 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 50,
     marginBottom: 20,
-    width: "90%", // Set the width of the button container
-    alignItems: "center", // Center the content horizontally
+    width: "90%",
+    alignItems: "center",
   },
   button1: {
-    backgroundColor: "#fff", // Set the background color for the login button
-    color: "#16537e", // Set the text color for the login button
-    borderColor: "#16537e", // Set the border color for the login button
-    borderWidth: 1, // Set the border width for the login button
+    backgroundColor: "#fff",
+    color: "#16537e",
+    borderColor: "#16537e",
+    borderWidth: 1,
     padding: 15,
     borderRadius: 10,
-    marginTop: 10, // Adjust the spacing
+    marginTop: 10,
     marginBottom: 20,
-    width: "90%", // Set the width of the button container
-    alignItems: "center", // Center the content horizontally
+    width: "90%",
+    alignItems: "center",
   },
   buttonText1: {
-    color: "#16537e", // Set the text color for the login button
+    color: "#16537e",
     fontSize: 18,
     fontWeight: "bold",
   },
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   loginLink: {
     color: "#16537e",
     fontWeight: "bold",
-    fontSize: 18, // Set a larger font size for emphasis
+    fontSize: 18,
   },
 });
 

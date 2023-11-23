@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  Dimensions,
-  //   ActivityIndicator,
-  StyleSheet,
-} from "react-native";
+import { View, Text, Dimensions, StyleSheet } from "react-native";
 import Categories from "../Components/Categories";
 import Title from "../Components/Title";
 import CurrentDate from "../Components/CurrentDate";
@@ -14,20 +8,20 @@ import { RFValue } from "react-native-responsive-fontsize";
 
 const { width } = Dimensions.get("window");
 
-// const deviceHeight = Dimensions.get("window").height;
-// const deviceWidth = Dimensions.get("window").width;
-
+// HomeScreen component
 function HomeScreen({ navigation, route }) {
-  const { category } = route.params || {}; // Use optional chaining to handle undefined route.params
+  // Extract category from route params using optional chaining
+  const { category } = route.params || {};
 
+  // State to manage category-specific news
   const [categoryNews, setCategoryNews] = useState([]);
 
+  // Fetch category-specific news when category changes
   useEffect(() => {
     if (category) {
       fetch(
         `https://gnews.io/api/v4/top-headlines?country=pk&category=world&apikey=17e3846c0655b3280c51ad059dcfcf4f`
       )
-        // https://newsapi.org/v2/top-headlines?country=in&apiKey=49c6371866474509aef46cf574edc7e8
         .then((res) => res.json())
         .then((response) => {
           setCategoryNews(response.articles);
@@ -38,22 +32,36 @@ function HomeScreen({ navigation, route }) {
 
   return (
     <View>
+      {/* Title Component */}
       <Title />
+
+      {/* CurrentDate Component */}
       <CurrentDate />
+
+      {/* Separator Line */}
       <View style={styles.separator}></View>
-      {/* <Categories navigation={navigation} /> */}
+
+      {/* Title for News Section */}
+      <Text style={styles.title}>Categories</Text>
+
+      {/* Categories Component  */}
+      <Categories navigation={navigation} />
+      {/* Title for News Section */}
       <Text style={styles.title}>News Around The World!</Text>
-      {/* <TrendingNews navigation={navigation} /> */}
+
+      {/* TrendingNews Component  */}
+      <TrendingNews navigation={navigation} />
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   title: {
     fontWeight: "700",
     fontSize: RFValue(20), // Use responsive font size
     color: "#16537e",
     marginBottom: width * 0.2,
-    textAlign: "center", // Center the text within its container
+    textAlign: "center",
   },
   separator: {
     height: 1,

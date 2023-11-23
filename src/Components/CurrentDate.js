@@ -2,8 +2,12 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 
+// CurrentDate component for displaying the formatted current date
 function CurrentDate() {
+  // Get the current date
   const currentDate = new Date();
+
+  // Format the current date as a string
   const formattedDate = currentDate.toLocaleDateString("en-US", {
     weekday: "long",
     year: "numeric",
@@ -11,8 +15,11 @@ function CurrentDate() {
   });
 
   return (
+    // Container for the current date
     <View style={styles.container}>
+      {/* Separator line */}
       <View style={styles.separator}></View>
+      {/* Text displaying the formatted current date */}
       <Text style={styles.date}>{formattedDate}</Text>
     </View>
   );

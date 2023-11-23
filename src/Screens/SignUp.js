@@ -13,30 +13,35 @@ import {
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 function SignUp({ navigation }) {
+  // State variables for user input
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // Navigate to Login screen
   const handleLogin = () => {
     navigation.navigate("Login");
   };
 
+  // Placeholder action for sign up
   const handleSignUp = () => {
     navigation.navigate("Home");
   };
 
+  // Placeholder action for signing up with Google
   const handleGoogleSignUp = async () => {
     Alert.alert("Sign Up with Google Placeholder Action");
-    // Placeholder action for signing up with Google
   };
 
   return (
     <>
+      {/* Background Image */}
       <ImageBackground
         source={require("./img/newsBg2.jpg")}
         style={styles.backgroundImage}
       ></ImageBackground>
 
+      {/* Main Container */}
       <View style={styles.container}>
         <Text style={styles.title}>Sign Up</Text>
 
@@ -89,13 +94,14 @@ function SignUp({ navigation }) {
             secureTextEntry
           />
         </View>
+
         {/* Sign Up Button */}
         <TouchableOpacity style={styles.button} onPress={handleSignUp}>
           <Text style={styles.buttonText}>Sign Up</Text>
         </TouchableOpacity>
 
         <View style={styles.loginContainer}>
-          {/* Gmail Sign-Up Button */}
+          {/* Google Sign-Up Button */}
           <TouchableOpacity
             style={styles.googleSignUpButton}
             onPress={handleGoogleSignUp}
@@ -104,7 +110,6 @@ function SignUp({ navigation }) {
               source={require("./img/google.png")}
               style={styles.gmailIcon}
             />
-            {/* <Text style={styles.GooglebuttonText}> Sign Up with Gmail</Text> */}
           </TouchableOpacity>
 
           {/* Login Link */}
@@ -163,31 +168,18 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: "40%",
     alignItems: "center",
-    // marginTop: width * 0.1,
     marginBottom: width * 0.07,
   },
   googleSignUpButton: {
     flexDirection: "row",
     backgroundColor: "#fff",
-    // borderColor: "#16537e",
-    // borderWidth: 2,
-    // padding: 5,
-    // borderRadius: 10,
-    // marginTop: width * 0.01,
-    // marginBottom: width * 0.01,
     width: "40%",
     alignItems: "center",
   },
   gmailIcon: {
-    width: width * 0.09, // Adjust the width as needed
-    height: width * 0.09, // Adjust the height as needed
-    // marginRight: 1,
+    width: width * 0.09,
+    height: width * 0.09,
   },
-  // GooglebuttonText: {
-  //   color: "#16537e",
-  //   fontSize: width * 0.04,
-  //   fontWeight: "bold",
-  // },
   buttonText: {
     color: "#fff",
     fontSize: width * 0.04,

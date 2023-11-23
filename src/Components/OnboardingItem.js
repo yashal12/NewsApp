@@ -32,7 +32,6 @@ function OnboardingItem({ item }) {
 
 export default OnboardingItem;
 
-// Styles for the component
 const styles = StyleSheet.create({
   container: {
     alignItems: "left",
@@ -40,9 +39,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   image: {
-    // flex: 0.7,
-    // justifyContent: 'center',
-    // --------------------------------
     flexDirection: "row",
     width: "50%",
     marginTop: 90,
@@ -65,7 +61,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 10,
     marginBottom: 120,
-    // marginRight: 80,
     marginLeft: -190,
   },
 });

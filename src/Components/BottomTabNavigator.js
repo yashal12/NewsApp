@@ -6,16 +6,19 @@ import HomeScreen from "../Screens/HomeScreen";
 import BookmarkScreen from "../Screens/BookmarkScreen";
 import AccountScreen from "../Screens/AccountScreen";
 
+// Create a Bottom Tab Navigator
 const Tab = createBottomTabNavigator();
 
+// BottomTabNavigator component
 const BottomTabNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={{
-        activeTintColor: "#16537e", // Active tab text color
-        inactiveTintColor: "gray", // Inactive tab text color
+        activeTintColor: "#16537e",
+        inactiveTintColor: "gray",
       }}
     >
+      {/* Home Tab */}
       <Tab.Screen
         name="HomeTab"
         component={HomeScreen}
@@ -28,6 +31,7 @@ const BottomTabNavigator = () => {
         }}
       />
 
+      {/* Bookmark Tab */}
       <Tab.Screen
         name="BookmarkScreen"
         component={BookmarkScreen}
@@ -39,6 +43,8 @@ const BottomTabNavigator = () => {
           ),
         }}
       />
+
+      {/* Account Tab */}
       <Tab.Screen
         name="Account"
         component={AccountScreen}

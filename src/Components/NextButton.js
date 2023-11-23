@@ -3,48 +3,61 @@ import { StyleSheet, View, TouchableOpacity, Animated } from "react-native";
 import Svg, { G, Circle } from "react-native-svg";
 import { AntDesign } from "@expo/vector-icons";
 
+// NextButton component for displaying a circular progress indicator and navigation buttons
 function NextButton({ percentage, scrollTo, skipButton }) {
   const size = 128;
   const strokeWidth = 2;
   const center = size / 2;
   const radius = size / 2 - strokeWidth / 2;
   const circumference = 2 * Math.PI * radius;
-  const progressAnimation = useRef(new Animated.Value(0)).current;
-  const progressRef = useRef(null);
+  const progressAnimation = useRef(new Animated.Value(0)).current; // Animation value for tracking progress, initialized to 0
+  const progressRef = useRef(null); // Reference to the Animated Circle component for dynamic updates
 
+  // Function to define the animation for progress updates
   const animation = (toValue) => {
+    // Use Animated.timing for a smooth transition
     return Animated.timing(progressAnimation, {
-      toValue,
-      duration: 250,
-      useNativeDriver: true,
-    }).start();
+      toValue, // The target value for the animation
+      duration: 250, // Duration of the animation in milliseconds
+      useNativeDriver: true, // Use the native driver for performance
+    }).start(); // Start the animation
   };
 
+  // Effect to trigger the animation when the percentage changes
   useEffect(() => {
-    animation(percentage); //function
-  }, [percentage]); //dependency array
+    // Call the animation function when the percentage changes
+    animation(percentage);
+  }, [percentage]);
 
+  // Effect to update the progress circle during animation
   useEffect(() => {
+    // Add a listener to the progressAnimation value to update the strokeDashoffset
     progressAnimation.addListener(
       (value) => {
+        // Calculate the strokeDashoffset based on the current percentage
         const strokeDashoffset =
           circumference - (circumference * value.value) / 100;
+
+        // Check if progressRef has been initialized
         if (progressRef?.current) {
-          //check if progressRef has been initialized
-          progressRef.current.setNativeProps({ strokeDashoffset }); //set the strokeDashoffset property of the     progress circle to the calculated value
+          // Set the strokeDashoffset property of the progress circle
+          progressRef.current.setNativeProps({ strokeDashoffset });
         }
       },
-      [percentage]
+      [percentage] // Re-run the effect when the percentage changes
     );
+
     return () => {
-      //clear all listeners when the component unmounts
+      // Cleanup function to remove all listeners when the component unmounts
       progressAnimation.removeAllListeners();
     };
-  }, []); //empty dependency array, so that it only runs when the component first mounts
+  }, []); // Empty dependency array, so it only runs when the component first mounts
 
   return (
     <View style={styles.container}>
+      {/* SVG container with specified width and height */}
       <Svg width={size} height={size}>
+        {/* Group element with rotation and origin properties */}
         <G rotation="-90" origin={center}>
           {/* <Circle
             stroke="#E6E7E8"
@@ -52,8 +65,8 @@ function NextButton({ percentage, scrollTo, skipButton }) {
             cy={center}
             r={radius}
             strokeWidth={strokeWidth}
-          />
-          <Circle
+          /> */}
+          {/* <Circle
             ref={progressRef}
             stroke="#F4338F"
             cx={center}
@@ -64,6 +77,7 @@ function NextButton({ percentage, scrollTo, skipButton }) {
           /> */}
         </G>
       </Svg>
+      {/* Button to navigate to the next screen */}
       <TouchableOpacity
         onPress={scrollTo}
         style={styles.button}
@@ -71,7 +85,7 @@ function NextButton({ percentage, scrollTo, skipButton }) {
       >
         <AntDesign name="rightcircleo" size={24} color="#fff" />
       </TouchableOpacity>
-
+      {/* Button to skip to another screen */}
       <TouchableOpacity
         onPress={skipButton}
         style={styles.button1}
@@ -82,8 +96,6 @@ function NextButton({ percentage, scrollTo, skipButton }) {
     </View>
   );
 }
-
-export default NextButton;
 
 const styles = StyleSheet.create({
   container: {
@@ -108,3 +120,5 @@ const styles = StyleSheet.create({
     left: -80,
   },
 });
+
+export default NextButton;
