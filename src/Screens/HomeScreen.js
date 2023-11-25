@@ -50,7 +50,7 @@ function HomeScreen({ navigation, route }) {
       <Text style={styles.title}>News Around The World!</Text>
 
       {/* TrendingNews Component  */}
-      <TrendingNews navigation={navigation} />
+      {/* <TrendingNews navigation={navigation} /> */}
     </View>
   );
 }

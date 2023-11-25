@@ -6,67 +6,57 @@ import {
   ScrollView,
   Linking,
   Dimensions,
+  Modal,
+  TouchableWithoutFeedback,
 } from "react-native";
-import { List, TextInput, Button } from "react-native-paper";
+import { List, Button, TextInput } from "react-native-paper";
+import Logout from "../Components/Logout";
+import FeedbackForm from "../Components/FeedbackForm";
+import PrivacyPolicy from "../Components/PrivacyPolicy";
+import CustomModal from "../Components/CustomModal";
+import TermsConditions from "../Components/TermsConditions";
 
-const { width } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window");
 
-// FeedbackForm component
-const FeedbackForm = ({ onSubmit }) => {
-  const [feedback, setFeedback] = useState("");
-
-  // Handle the submission of feedback
-  const handleSubmit = () => {
-    // Logic to submit feedback
-    onSubmit(feedback);
-    // Clear the feedback input after submission
-    setFeedback("");
+function AccountScreen({ navigation }) {
+  const handleLogout = () => {
+    navigation.navigate("OnboardingScreen");
   };
 
-  return (
-    <View>
-      {/* Text input for feedback */}
-      <TextInput
-        label="Feedback"
-        value={feedback}
-        onChangeText={(text) => setFeedback(text)}
-        multiline
-        style={styles.feedbackInput}
-      />
-      {/* Button to submit feedback */}
-      <Button mode="contained" onPress={handleSubmit}>
-        Submit Feedback
-      </Button>
-    </View>
-  );
-};
+  const [isFeedbackModalVisible, setIsFeedbackModalVisible] = useState(false);
+  const [isPrivacyPolicyVisible, setIsPrivacyPolicyVisible] = useState(false);
+  const [isTermsVisible, setIsTermsVisible] = useState(false);
 
-function AccountScreen() {
-  // Open a dummy URL for feedback form
   const openFeedbackForm = () => {
-    Linking.openURL("https://example.com/feedback-form");
+    setIsFeedbackModalVisible(true);
   };
 
-  // Placeholder functions for opening Privacy Policy and Terms & Conditions
+  const closeFeedbackForm = () => {
+    setIsFeedbackModalVisible(false);
+  };
+
   const openPrivacyPolicy = () => {
-    console.log("Privacy Policy pressed");
+    setIsPrivacyPolicyVisible(true);
   };
 
-  const openTermsAndConditions = () => {
-    console.log("Terms & Conditions pressed");
+  const closePrivacyPolicy = () => {
+    setIsPrivacyPolicyVisible(false);
   };
 
-  // Placeholder function for handling "Open Profile" press
-  const handleOpenProfilePress = () => {
-    console.log("Open Profile pressed");
+  const openTerms = () => {
+    setIsTermsVisible(true);
   };
 
-  // Placeholder function for handling feedback submission
+  const closeTerms = () => {
+    setIsTermsVisible(false);
+  };
+
   const handleFeedbackSubmit = (feedback) => {
     console.log("Feedback submitted:", feedback);
+    // Close the modal after submitting feedback
+    closeFeedbackForm();
   };
 
-  // State variable to keep track of expanded sections in the accordion
   const [expandedSections, setExpandedSections] = useState([]);
 
   // Data for accordion sections
@@ -74,7 +64,16 @@ function AccountScreen() {
     {
       title: "Provide Feedback",
       content: [
-        { component: <FeedbackForm onSubmit={handleFeedbackSubmit} /> },
+        {
+          component: (
+            <Button
+              onPress={openFeedbackForm}
+              labelStyle={styles.feedbackButtonLabel}
+            >
+              Provide Feedback
+            </Button>
+          ),
+        },
       ],
     },
     {
@@ -94,18 +93,18 @@ function AccountScreen() {
             <Text style={styles.textContent}>johndoe@example.com</Text>
           ),
         },
-        {
-          title: "Change Password",
-          component: (
-            <Button
-              mode="contained"
-              onPress={() => console.log("Change Password pressed")}
-              style={styles.button}
-            >
-              Change Password
-            </Button>
-          ),
-        },
+        // {
+        //   title: "Change Password",
+        //   component: (
+        //     <Button
+        //       mode="contained"
+        //       onPress={() => console.log("Change Password pressed")}
+        //       style={styles.button}
+        //     >
+        //       Change Password
+        //     </Button>
+        //   ),
+        // },
       ],
     },
     {
@@ -117,7 +116,9 @@ function AccountScreen() {
       content: [
         {
           component: (
-            <Text style={styles.textContent}>View Privacy Policy</Text>
+            <Text style={styles.textContent} onPress={openPrivacyPolicy}>
+              View Privacy Policy
+            </Text>
           ),
         },
       ],
@@ -127,7 +128,9 @@ function AccountScreen() {
       content: [
         {
           component: (
-            <Text style={styles.textContent}>Read Terms & Conditions</Text>
+            <Text style={styles.textContent} onPress={openTerms}>
+              View Terms & Conditions
+            </Text>
           ),
         },
       ],
@@ -145,45 +148,60 @@ function AccountScreen() {
     <ScrollView style={styles.container}>
       {/* Title */}
       <Text style={styles.title}>Account</Text>
+      <Logout onPress={handleLogout} />
 
       {/* Tagline */}
       <Text style={styles.tagline}>We value your feedback!</Text>
 
       <View style={styles.section}>
-        {sections
-          //   .filter((section) => section.title === "Provide Feedback")
-          .map((section, index) =>
-            section.content.length === 0 ? (
-              // Render list item for section without content
-              <List.Item
-                key={index}
-                title={section.title}
-                onPress={() => console.log(`${section.title} pressed`)}
-              />
-            ) : (
-              // Render accordion for section with content
-              <List.Accordion
-                key={index}
-                title={section.title}
-                expanded={expandedSections[index]}
-                onPress={() => handleAccordionPress(index)}
-              >
-                {section.content.map((item, itemIndex) => (
-                  <View key={itemIndex}>{item.component}</View>
-                ))}
-                <View style={{ marginVertical: 10 }} />
-              </List.Accordion>
-            )
-          )}
+        {sections.map((section, index) =>
+          section.content.length === 0 ? (
+            // Render list item for section without content
+            <List.Item
+              key={index}
+              title={section.title}
+              titleStyle={styles.sectionTitle}
+              onPress={() => console.log(`${section.title} pressed`)}
+            />
+          ) : (
+            // Render accordion for section with content
+            <List.Accordion
+              key={index}
+              title={section.title}
+              expanded={expandedSections[index]}
+              titleStyle={styles.accordionTitle}
+              onPress={() => handleAccordionPress(index)}
+            >
+              {section.content.map((item, itemIndex) => (
+                <View key={itemIndex} style={{ alignItems: "center" }}>
+                  {item.component}
+                </View>
+              ))}
+              <View style={{ marginVertical: 10 }} />
+            </List.Accordion>
+          )
+        )}
       </View>
 
-      {/* Add margin between sections */}
+      {/* FeedbackForm Modal */}
+      <CustomModal
+        isVisible={isFeedbackModalVisible}
+        onClose={closeFeedbackForm}
+        content={<FeedbackForm onSubmit={handleFeedbackSubmit} />}
+      />
 
-      {/* Add margin between sections */}
-      <View style={{ marginVertical: 10 }} />
-
-      {/* Add margin between sections */}
-      <View style={{ marginVertical: 10 }} />
+      {/* PrivacyPolicy Modal */}
+      <CustomModal
+        isVisible={isPrivacyPolicyVisible}
+        onClose={closePrivacyPolicy}
+        content={<PrivacyPolicy />}
+      />
+      {/* Terms & conditions Modal */}
+      <CustomModal
+        isVisible={isTermsVisible}
+        onClose={closeTerms}
+        content={<TermsConditions />}
+      />
     </ScrollView>
   );
 }
@@ -205,6 +223,7 @@ const styles = StyleSheet.create({
     marginLeft: width * 0.06,
     marginBottom: width * 0.06,
     marginTop: width * 0.06,
+    color: "black",
   },
   tagline: {
     fontSize: 16,
@@ -216,13 +235,38 @@ const styles = StyleSheet.create({
     marginBottom: width * 0.06,
     marginVertical: 10,
   },
-
   feedbackInput: {
     marginBottom: width * 0.03,
     marginTop: width * 0.06,
   },
   button: {
     marginTop: width * 0.06,
+    backgroundColor: "#f4338f",
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+  },
+  modalContent: {
+    backgroundColor: "white",
+    padding: 16,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#16537e",
+    marginVertical: 7,
+  },
+  accordionTitle: {
+    fontSize: 16,
+    fontWeight: "light",
+    color: "#16537e",
+  },
+  feedbackButtonLabel: {
+    color: "black",
   },
 });
 
