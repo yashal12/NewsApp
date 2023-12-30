@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Platform } from "react-native";
+import { View, Text, StyleSheet, Platform, Image } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 
 // Title component for displaying the app title, subtitle, and separator
@@ -7,6 +7,7 @@ function Title() {
   return (
     <View style={styles.titleContainer}>
       {/* App Title */}
+      <Image source={require("./img/logo.png")} style={styles.image} />
       <Text style={styles.title}>Daily Dose</Text>
 
       {/* Subtitle */}
@@ -27,29 +28,37 @@ const styles = StyleSheet.create({
     marginTop: 60,
     marginLeft: 9,
   },
+  image: {
+    // borderRadius: 30,
+    width: 52,
+    height: 40,
+    // marginBottom: 40,
+    // marginTop: 90,
+  },
   title: {
     fontWeight: "800",
     fontSize: RFValue(38), // Use responsive font size
     color: "#16537e",
     // Platform-specific styling for iOS and Android
-    ...Platform.select({
-      ios: {
-        shadowColor: "#000",
-        shadowOffset: {
-          width: 2,
-          height: 2,
-        },
-        shadowOpacity: 0.5,
-        shadowRadius: 2,
-      },
-      android: {
-        elevation: 2,
-      },
-    }),
+    // ...Platform.select({
+    //   ios: {
+    //     shadowColor: "#000",
+    //     shadowOffset: {
+    //       width: 2,
+    //       height: 2,
+    //     },
+    //     shadowOpacity: 0.5,
+    //     shadowRadius: 2,
+    //   },
+    //   android: {
+    //     elevation: 2,
+    //   },
+    // }),
   },
   subtitle: {
-    fontSize: RFValue(13), // Use responsive font size
+    fontSize: RFValue(11), // Use responsive font size
     color: "#16537e",
+    marginTop: 19,
   },
   separator: {
     height: 1,

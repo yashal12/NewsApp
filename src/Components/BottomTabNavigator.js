@@ -4,7 +4,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 
 import HomeScreen from "../Screens/HomeScreen";
 import BookmarkScreen from "../Screens/BookmarkScreen";
-import AccountScreen from "../Screens/AccountScreen";
+import SettingScreen from "../Screens/SettingScreen";
 
 // Create a Bottom Tab Navigator
 const Tab = createBottomTabNavigator();
@@ -46,13 +46,13 @@ const BottomTabNavigator = () => {
 
       {/* Account Tab */}
       <Tab.Screen
-        name="Account"
-        component={AccountScreen}
+        name="Settings"
+        component={SettingScreen}
         options={{
           headerShown: false,
-          tabBarLabel: "Account",
+          tabBarLabel: "Settings",
           tabBarIcon: ({ color, size }) => (
-            <Icon name="person-outline" color={color} size={size} />
+            <Icon name="settings-outline" color={color} size={size} />
           ),
         }}
       />

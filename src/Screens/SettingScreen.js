@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -15,17 +15,49 @@ import FeedbackForm from "../Components/FeedbackForm";
 import PrivacyPolicy from "../Components/PrivacyPolicy";
 import CustomModal from "../Components/CustomModal";
 import TermsConditions from "../Components/TermsConditions";
+import { auth, db } from "../Components/firebase";
 
 const { width, height } = Dimensions.get("window");
 
-function AccountScreen({ navigation }) {
+function Settings({ navigation }) {
   const handleLogout = () => {
-    navigation.navigate("OnboardingScreen");
+    // navigation.navigate("StartScreen");
+    auth.signOut().then(() => {
+      navigation.navigate("StartScreen");
+    });
   };
 
   const [isFeedbackModalVisible, setIsFeedbackModalVisible] = useState(false);
   const [isPrivacyPolicyVisible, setIsPrivacyPolicyVisible] = useState(false);
   const [isTermsVisible, setIsTermsVisible] = useState(false);
+  const [expandedSections, setExpandedSections] = useState([]);
+  const [isEditProfileVisible, setIsEditProfileVisible] = useState(false);
+  const [user, setUser] = useState("");
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const currentUser = auth.currentUser;
+      console.log("currentUser", currentUser);
+      if (currentUser) {
+        setUser({
+          userName: currentUser.userName,
+          email: currentUser.email,
+        });
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  const openEditProfile = () => {
+    // Navigate to the EditProfile screen
+    console.log("openEditProfile");
+    navigation.navigate("EditProfile");
+  };
+
+  const closeEditProfile = () => {
+    setIsEditProfileVisible(false);
+  };
 
   const openFeedbackForm = () => {
     setIsFeedbackModalVisible(true);
@@ -52,12 +84,20 @@ function AccountScreen({ navigation }) {
   };
 
   const handleFeedbackSubmit = (feedback) => {
-    console.log("Feedback submitted:", feedback);
-    // Close the modal after submitting feedback
-    closeFeedbackForm();
-  };
+    const emailSubject = "Feedback from App User";
+    const emailBody = `Feedback: ${feedback}`;
+    const emailAddress = "yashalimran01@gmail.com";
 
-  const [expandedSections, setExpandedSections] = useState([]);
+    const mailtoLink = `mailto:${emailAddress}?subject=${encodeURIComponent(
+      emailSubject
+    )}&body=${encodeURIComponent(emailBody)}`;
+
+    // Open the default email client with the pre-filled email
+    Linking.openURL(mailtoLink).then(() => {
+      // Close the modal after opening the email client
+      closeFeedbackForm();
+    });
+  };
 
   // Data for accordion sections
   const sections = [
@@ -84,27 +124,13 @@ function AccountScreen({ navigation }) {
       title: "Open Profile",
       content: [
         {
-          title: "Username",
-          component: <Text style={styles.textContent}>JohnDoe123</Text>,
-        },
-        {
-          title: "Email",
+          // component: <EditProfile />,
           component: (
-            <Text style={styles.textContent}>johndoe@example.com</Text>
+            <Button onPress={openEditProfile} labelStyle={styles.textContent}>
+              Open Profile
+            </Button>
           ),
         },
-        // {
-        //   title: "Change Password",
-        //   component: (
-        //     <Button
-        //       mode="contained"
-        //       onPress={() => console.log("Change Password pressed")}
-        //       style={styles.button}
-        //     >
-        //       Change Password
-        //     </Button>
-        //   ),
-        // },
       ],
     },
     {
@@ -147,7 +173,7 @@ function AccountScreen({ navigation }) {
   return (
     <ScrollView style={styles.container}>
       {/* Title */}
-      <Text style={styles.title}>Account</Text>
+      <Text style={styles.title}>Settings</Text>
       <Logout onPress={handleLogout} />
 
       {/* Tagline */}
@@ -223,7 +249,10 @@ const styles = StyleSheet.create({
     marginLeft: width * 0.06,
     marginBottom: width * 0.06,
     marginTop: width * 0.06,
-    color: "black",
+    color: "white",
+    backgroundColor: "#16537e",
+    padding: 13,
+    borderRadius: 10,
   },
   tagline: {
     fontSize: 16,
@@ -266,8 +295,11 @@ const styles = StyleSheet.create({
     color: "#16537e",
   },
   feedbackButtonLabel: {
-    color: "black",
+    color: "white",
+    backgroundColor: "#16537e",
+    padding: 10,
+    borderRadius: 10,
   },
 });
 
-export default AccountScreen;
+export default Settings;

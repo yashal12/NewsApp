@@ -9,9 +9,9 @@ function CurrentDate() {
 
   // Format the current date as a string
   const formattedDate = currentDate.toLocaleDateString("en-US", {
-    weekday: "long",
-    year: "numeric",
     month: "long",
+    day: "numeric",
+    year: "numeric",
   });
 
   return (

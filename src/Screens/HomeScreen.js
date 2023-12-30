@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Dimensions, StyleSheet } from "react-native";
+import { View, Text, Dimensions, StyleSheet, ScrollView } from "react-native";
 import Categories from "../Components/Categories";
 import Title from "../Components/Title";
 import CurrentDate from "../Components/CurrentDate";
@@ -31,7 +31,7 @@ function HomeScreen({ navigation, route }) {
   }, [category]);
 
   return (
-    <View>
+    <ScrollView style={styles.container}>
       {/* Title Component */}
       <Title />
 
@@ -39,28 +39,41 @@ function HomeScreen({ navigation, route }) {
       <CurrentDate />
 
       {/* Separator Line */}
-      <View style={styles.separator}></View>
-
+      {/* <View style={styles.separator}></View> */}
+      <View style={{ marginBottom: 37 }} />
       {/* Title for News Section */}
-      <Text style={styles.title}>Categories</Text>
+      <Text style={styles.Categorytitle}>Categories</Text>
 
       {/* Categories Component  */}
       <Categories navigation={navigation} />
+
       {/* Title for News Section */}
       <Text style={styles.title}>News Around The World!</Text>
+      <View style={styles.separator}></View>
 
       {/* TrendingNews Component  */}
-      {/* <TrendingNews navigation={navigation} /> */}
-    </View>
+      <TrendingNews navigation={navigation} />
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+  },
+  Categorytitle: {
+    fontWeight: "700",
+    fontSize: RFValue(20), // Use responsive font size
+    color: "#16537e",
+    marginBottom: width * 0.1,
+    textAlign: "center",
+  },
   title: {
     fontWeight: "700",
     fontSize: RFValue(20), // Use responsive font size
     color: "#16537e",
-    marginBottom: width * 0.2,
+    // marginBottom: width * 0.2,
     textAlign: "center",
   },
   separator: {
@@ -68,6 +81,7 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     borderTopWidth: 1,
     borderTopColor: "#bcbcbc",
+
     width: "90%",
     alignSelf: "center",
     ...Platform.select({

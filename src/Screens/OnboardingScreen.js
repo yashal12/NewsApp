@@ -8,11 +8,13 @@ import {
   FlatList,
   Animated,
   Text,
+  SafeAreaView,
 } from "react-native";
 import Paginator from "../Components/Paginator";
 import pages from "../Components/SlidesData";
 import OnboardingItem from "../Components/OnboardingItem";
 import NextButton from "../Components/NextButton";
+// import Animated, { FadeIn } from "react-native-reanimated";
 
 // Get the width of the device window
 const windowWidth = Dimensions.get("window").width;
@@ -52,6 +54,10 @@ function OnboardingScreen({ navigation }) {
     <View style={styles.container}>
       {/* Title of the onboarding screen */}
       <Text style={styles.title}>Daily Dose</Text>
+
+      {/* <Animated.ScrollView entering={FadeIn.duration(500)}
+       <Text style={styles.title}>Daily Dose</Text>
+       <Animated.ScrollView/> */}
 
       {/* Container for the FlatList of onboarding slides */}
       <View style={{ flex: 3 }}>
@@ -102,7 +108,7 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     fontSize: 40,
     color: "#16537e",
-    marginLeft: -100,
+    // marginLeft: -100,
     marginTop: 55,
   },
 });

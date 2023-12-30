@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  ScrollView,
+  FlatList,
   StyleSheet,
   Text,
   View,
@@ -38,32 +38,40 @@ const categoryColors = {
 
 // Categories component for displaying news categories
 const Categories = ({ navigation }) => {
+  // Define keyExtractor function
+  const keyExtractor = (item, index) => index.toString();
+  // Define renderItem function
+  const renderItem = ({ item, index }) => (
+    <TouchableOpacity
+      key={index}
+      style={styles.categoryContainer}
+      onPress={() => navigation.navigate("TrendingNews", { category: item })}
+    >
+      {/* View representing each category */}
+      <View
+        style={[
+          styles.category,
+          {
+            backgroundColor: categoryColors[item],
+            borderColor: categoryColors[item], // Set border color dynamically
+          },
+        ]}
+      >
+        {/* Text displaying the category name */}
+        <Text style={styles.categoryText}>{item}</Text>
+      </View>
+    </TouchableOpacity>
+  );
+
   return (
-    // Horizontal ScrollView for displaying news categories
-    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-      {categories.map((category, index) => (
-        // TouchableOpacity for each category, navigating to GetNews screen on press
-        <TouchableOpacity
-          key={index}
-          style={styles.categoryContainer}
-          onPress={() => navigation.navigate("GetNews", { category })}
-        >
-          {/* View representing each category */}
-          <View
-            style={[
-              styles.category,
-              {
-                backgroundColor: categoryColors[category],
-                borderColor: categoryColors[category], // Set border color dynamically
-              },
-            ]}
-          >
-            {/* Text displaying the category name */}
-            <Text style={styles.categoryText}>{category}</Text>
-          </View>
-        </TouchableOpacity>
-      ))}
-    </ScrollView>
+    // FlatList for displaying news categories
+    <FlatList
+      horizontal
+      data={categories}
+      keyExtractor={keyExtractor}
+      renderItem={renderItem}
+      showsHorizontalScrollIndicator={false}
+    />
   );
 };
 

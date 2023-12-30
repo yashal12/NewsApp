@@ -12,8 +12,8 @@ function Logout({ onPress, navigation }) {
 const styles = StyleSheet.create({
   button: {
     backgroundColor: "#16537e",
-    padding: 3,
-    borderRadius: 10,
+    padding: 9,
+    borderRadius: 20,
     width: "30%",
     alignItems: "center",
     marginLeft: 220,

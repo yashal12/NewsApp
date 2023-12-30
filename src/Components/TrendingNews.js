@@ -8,7 +8,6 @@ import {
   StyleSheet,
   Dimensions,
 } from "react-native";
-
 const { width } = Dimensions.get("window");
 
 // Component for displaying trending news
@@ -23,6 +22,8 @@ function TrendingNews({ navigation }) {
     )
       .then((response) => response.json())
       .then((data) => {
+        console.log("kkkk", data.title);
+
         setNewsData(data.articles);
       })
       .catch((error) => console.error("Error:", error));
@@ -32,7 +33,10 @@ function TrendingNews({ navigation }) {
   const renderItem = ({ item, index }) => (
     <TouchableOpacity
       key={index}
-      onPress={() => navigation.navigate("WebView", { url: item.url })}
+      onPress={() =>
+        navigation.navigate("WebView", { url: item.url, title: item.title })
+      }
+      // navigation.navigate("WebView", { url: item.url })}
     >
       <View style={styles.newsContainer} key={index}>
         {/* Green Box for News Item */}
@@ -47,9 +51,9 @@ function TrendingNews({ navigation }) {
         {/* Title and Description Container */}
         <View style={styles.contentContainer}>
           <Text style={styles.title}>{item.title}</Text>
-          <Text style={styles.separator} />
-          <Text style={styles.description}>{item.description}</Text>
+          {/* <Text style={styles.description}>{item.description}</Text> */}
         </View>
+        <Text style={styles.separator} />
       </View>
     </TouchableOpacity>
   );
@@ -69,25 +73,27 @@ const styles = StyleSheet.create({
   newsContainer: {
     alignItems: "center",
     justifyContent: "center",
-    margin: 10,
+    // margin: 10,
   },
   greenBox: {
     position: "absolute",
-    height: 440,
+    height: 400,
     width: width * 0.9,
-    backgroundColor: "#d0e0e3",
+    backgroundColor: "#F0F5F6",
     borderRadius: 10,
+    // marginTop: 75,
   },
   image: {
     height: 300,
     width: width * 0.7,
     borderRadius: 10,
-    marginTop: 20,
+    marginTop: 90,
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(255,255,255,0.2)",
+    // backgroundColor: "rgba(255,255,255,0.2)",
     borderRadius: 10,
+    // marginBottom: 38,
   },
   contentContainer: {
     position: "absolute",
@@ -95,25 +101,22 @@ const styles = StyleSheet.create({
     padding: 10,
     width: width * 0.7,
     borderRadius: 10,
-    backgroundColor: "#bcbcbc",
+    backgroundColor: "#eeeeee",
+    marginBottom: 38,
   },
   title: {
     textAlign: "center",
     padding: 5,
-    color: "black",
+    // color: "black",
   },
   separator: {
     height: 1,
     marginVertical: 5,
-    borderTopWidth: 3,
-    borderTopColor: "#16537e",
-    alignSelf: "center", // Center the separator
-    width: "30%",
-  },
-  description: {
-    textAlign: "center",
-    padding: 5,
-    color: "black",
+    // borderTopWidth: 3,
+    // borderTopColor: "#16537e",
+    // alignSelf: "center", // Center the separator
+    // width: "30%",
+    marginBottom: 88,
   },
 });
 

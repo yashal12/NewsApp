@@ -1,148 +1,182 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
   StyleSheet,
   ImageBackground,
-  Alert,
+  Text,
+  View,
+  TextInput,
+  SafeAreaView,
+  TouchableOpacity,
   Dimensions,
-  Image,
+  ScrollView,
+  Alert,
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { useNavigation } from "@react-navigation/native";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from "../Components/firebase";
+import { doc, setDoc } from "firebase/firestore";
 
-function SignUp({ navigation }) {
-  // State variables for user input
-  const [name, setName] = useState("");
+const SignUp = () => {
+  const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigation = useNavigation();
 
-  // Navigate to Login screen
-  const handleLogin = () => {
-    navigation.navigate("Login");
+  useEffect(() => {
+    setLoading(true);
+    const unsubscribe = auth.onAuthStateChanged((authUser) => {
+      setLoading(false);
+
+      if (authUser) {
+        // User is authenticated, navigate to the login page
+        navigation.replace("Login");
+      }
+    });
+
+    return unsubscribe;
+  }, []);
+
+  const showAlert = (title, message) => {
+    Alert.alert(title, message, [{ text: "OK" }]);
   };
 
-  // Placeholder action for sign up
-  const handleSignUp = () => {
-    navigation.navigate("Home");
-  };
+  const register = async () => {
+    if (userName === "" || email === "" || password === "") {
+      showAlert("Please enter your credentials!", "");
+      return;
+    }
 
-  // Placeholder action for signing up with Google
-  const handleGoogleSignUp = async () => {
-    Alert.alert("Sign Up with Google Placeholder Action");
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      const user = userCredential._tokenResponse.email;
+      const myUserUid = auth.currentUser.uid;
+
+      await setDoc(doc(db, "users", `${myUserUid}`), {
+        userName: userName,
+        email: user,
+      });
+
+      // Reset form fields
+      setUserName("");
+      setEmail("");
+      setPassword("");
+
+      // Navigate to login screen after successful registration
+      navigation.navigate("Login");
+    } catch (error) {
+      console.error("Registration error:", error.message);
+      showAlert("Registration Error", error.message);
+    }
   };
 
   return (
-    <>
-      {/* Background Image */}
-      <ImageBackground
-        source={require("./img/newsBg2.jpg")}
-        style={styles.backgroundImage}
-      ></ImageBackground>
-
-      {/* Main Container */}
-      <View style={styles.container}>
+    <ScrollView
+      contentContainerStyle={styles.container}
+      keyboardShouldPersistTaps="handled"
+    >
+      <SafeAreaView>
+        <ImageBackground
+          source={require("./img/newsBg2.jpg")}
+          style={styles.backgroundImage}
+        ></ImageBackground>
         <Text style={styles.title}>Sign Up</Text>
 
-        {/* Name Input */}
-        <View style={styles.inputContainer}>
-          <FontAwesome
-            name="user"
-            size={20}
-            color="#16537e"
-            style={styles.icon}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Name"
-            value={name}
-            onChangeText={(text) => setName(text)}
-          />
-        </View>
-
-        {/* Email Input */}
-        <View style={styles.inputContainer}>
-          <FontAwesome
-            name="envelope"
-            size={20}
-            color="#16537e"
-            style={styles.icon}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            value={email}
-            onChangeText={(text) => setEmail(text)}
-            keyboardType="email-address"
-          />
-        </View>
-
-        {/* Password Input */}
-        <View style={styles.inputContainer}>
-          <FontAwesome
-            name="lock"
-            size={20}
-            color="#16537e"
-            style={styles.icon}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-            secureTextEntry
-          />
-        </View>
-
-        {/* Sign Up Button */}
-        <TouchableOpacity style={styles.button} onPress={handleSignUp}>
-          <Text style={styles.buttonText}>Sign Up</Text>
-        </TouchableOpacity>
-
-        <View style={styles.loginContainer}>
-          {/* Google Sign-Up Button */}
-          <TouchableOpacity
-            style={styles.googleSignUpButton}
-            onPress={handleGoogleSignUp}
-          >
-            <Image
-              source={require("./img/google.png")}
-              style={styles.gmailIcon}
+        <View style={styles.formContainer}>
+          <View style={styles.inputContainer}>
+            <FontAwesome
+              name="user"
+              size={20}
+              color="#16537e"
+              style={styles.icon}
             />
+            <TextInput
+              placeholder="Username"
+              value={userName}
+              onChangeText={(text) => setUserName(text)}
+              style={styles.input}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <FontAwesome
+              name="envelope"
+              size={20}
+              color="#16537e"
+              style={styles.icon}
+            />
+            <TextInput
+              placeholder="Email"
+              value={email}
+              onChangeText={(text) => setEmail(text)}
+              keyboardType="email-address"
+              style={styles.input}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <FontAwesome
+              name="lock"
+              size={20}
+              color="#16537e"
+              style={styles.icon}
+            />
+            <TextInput
+              value={password}
+              onChangeText={(text) => setPassword(text)}
+              secureTextEntry={true}
+              placeholder="Password"
+              style={styles.input}
+            />
+          </View>
+          <TouchableOpacity onPress={register} style={styles.button}>
+            <Text style={styles.buttonText}>Register</Text>
           </TouchableOpacity>
-
-          {/* Login Link */}
-          <TouchableOpacity onPress={handleLogin}>
-            <Text style={styles.loginLink}>Login Instead!</Text>
+          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+            <Text style={styles.loginLink}>
+              Already have an account? Sign in
+            </Text>
           </TouchableOpacity>
         </View>
-      </View>
-    </>
+      </SafeAreaView>
+    </ScrollView>
   );
-}
+};
 
 const { width } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+    backgroundColor: "#fff",
+  },
   backgroundImage: {
     flex: 1,
-    height: 250,
-    backgroundColor: "#fff",
-  },
-  container: {
-    flex: 1,
-    padding: 20,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#fff",
+    height: 250,
+  },
+  formContainer: {
+    flex: 1,
+    padding: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 30,
   },
   title: {
+    // fontSize: width * 0.1,
+    // fontWeight: "900",
+    // color: "#16537e",
+    // marginTop: 200,
     fontSize: width * 0.1,
-    fontWeight: "900",
-    marginBottom: width * 0.1,
+    fontWeight: "700",
     color: "#16537e",
-    marginTop: -width * 0.22,
+    marginLeft: 120,
+    marginTop: 50,
   },
   inputContainer: {
     flexDirection: "row",
@@ -170,26 +204,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: width * 0.07,
   },
-  googleSignUpButton: {
-    flexDirection: "row",
-    backgroundColor: "#fff",
-    width: "40%",
-    alignItems: "center",
-  },
-  gmailIcon: {
-    width: width * 0.09,
-    height: width * 0.09,
-  },
   buttonText: {
     color: "#fff",
     fontSize: width * 0.04,
     fontWeight: "bold",
-  },
-  loginContainer: {
-    marginTop: width * 0.01,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
   },
   loginLink: {
     color: "#16537e",
