@@ -26,7 +26,7 @@ function HomeScreen({ navigation, route }) {
         .then((response) => {
           setCategoryNews(response.articles);
         })
-        .catch((error) => console.error("Error:", error));
+        .catch((error) => console.error("Error HomeScreen:", error));
     }
   }, [category]);
 

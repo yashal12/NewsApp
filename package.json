@@ -4,19 +4,20 @@
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web"
   },
   "dependencies": {
     "@expo/webpack-config": "^19.0.0",
-    "@react-native-async-storage/async-storage": "^1.21.0",
+    "@react-native-async-storage/async-storage": "1.18.2",
     "@react-native-firebase/app": "^18.7.3",
     "@react-native-firebase/auth": "^18.7.3",
     "@react-native-google-signin/google-signin": "^10.1.1",
     "@react-navigation/bottom-tabs": "^6.5.11",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/stack": "^6.3.20",
+    "eas-login": "^0.0.0",
     "expo": "~49.0.15",
     "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
@@ -29,20 +30,20 @@
     "react-native-elements": "^3.4.3",
     "react-native-email-link": "^1.14.8",
     "react-native-fluidic-slider": "^0.0.3",
-    "react-native-gesture-handler": "^2.14.0",
+    "react-native-gesture-handler": "~2.12.0",
     "react-native-image-filter-kit": "^0.8.0",
     "react-native-mail-compose": "^0.0.6",
     "react-native-onboarding-swiper": "^1.2.0",
     "react-native-paper": "^5.11.1",
-    "react-native-reanimated": "^3.6.1",
+    "react-native-reanimated": "~3.3.0",
     "react-native-render-html": "^6.3.4",
     "react-native-responsive-fontsize": "^0.5.1",
     "react-native-splash-screen": "^3.3.0",
-    "react-native-svg": "^14.0.0",
+    "react-native-svg": "13.9.0",
     "react-native-vector-icons": "^10.0.2",
     "react-native-video": "^5.2.1",
     "react-native-web": "~0.19.6",
-    "react-native-webview": "^13.6.2"
+    "react-native-webview": "13.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

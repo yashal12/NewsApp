@@ -7,7 +7,7 @@ function Title() {
   return (
     <View style={styles.titleContainer}>
       {/* App Title */}
-      <Image source={require("./img/logo.png")} style={styles.image} />
+      {/* <Image source={require("./img/logo.png")} style={styles.image} /> */}
       <Text style={styles.title}>Daily Dose</Text>
 
       {/* Subtitle */}

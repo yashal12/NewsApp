@@ -5,7 +5,6 @@ import LottieView from "lottie-react-native";
 export default function SplashScreen({ navigation }) {
   const animation = useRef(null);
   useEffect(() => {
-    // Add any necessary logic or navigation here after the animation completes
     setTimeout(() => {
       // For example, navigate to the next screen
       navigation.replace("OnboardingScreen");
@@ -31,7 +30,4 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flex: 1,
   },
-  //   buttonContainer: {
-  //     paddingTop: 20,
-  //   },
 });

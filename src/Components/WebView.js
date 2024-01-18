@@ -13,7 +13,11 @@ import { Header } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 const WebViewComponent = ({ route, navigation }) => {
-  const { url, title } = route.params;
+  console.log("WebViewComponent start");
+
+  console.log("route.params:", route.params);
+  const { title, url } = route.params || {};
+
   const [loading, setLoading] = useState(true);
 
   // Add this function to navigate to BookmarkScreen

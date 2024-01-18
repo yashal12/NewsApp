@@ -21,10 +21,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/ddLogo.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.yashal.NewsApp"
     },
     "web": {
       "favicon": "./assets/ddLogo.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "64c70cdc-9d41-4371-9838-df14849a7b4c"
+      }
     }
   }
 }

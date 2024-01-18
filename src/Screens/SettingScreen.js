@@ -20,13 +20,6 @@ import { auth, db } from "../Components/firebase";
 const { width, height } = Dimensions.get("window");
 
 function Settings({ navigation }) {
-  const handleLogout = () => {
-    // navigation.navigate("StartScreen");
-    auth.signOut().then(() => {
-      navigation.navigate("StartScreen");
-    });
-  };
-
   const [isFeedbackModalVisible, setIsFeedbackModalVisible] = useState(false);
   const [isPrivacyPolicyVisible, setIsPrivacyPolicyVisible] = useState(false);
   const [isTermsVisible, setIsTermsVisible] = useState(false);

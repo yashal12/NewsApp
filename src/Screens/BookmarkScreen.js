@@ -27,10 +27,69 @@ import { Swipeable } from "react-native-gesture-handler";
 const { width } = Dimensions.get("window");
 
 const BookmarkScreen = ({ route }) => {
-  const { title, url } = route.params;
+  const { title, url } = route.params || {};
+
   const [bookmarks, setBookmarks] = useState([]);
   const user = auth.currentUser;
   const navigation = useNavigation();
+
+  // useEffect(() => {
+  //   const fetchBookmarks = async () => {
+  //     try {
+  //       if (user) {
+  //         const bookmarksCollection = collection(db, "bookmarks");
+  //         const userBookmarksQuery = query(
+  //           bookmarksCollection,
+  //           where("userId", "==", user.uid)
+  //         );
+
+  //         const bookmarksSnapshot = await getDocs(userBookmarksQuery);
+  //         const bookmarksData = bookmarksSnapshot.docs.map((doc) => ({
+  //           id: doc.id,
+  //           ...doc.data(),
+  //         }));
+
+  //         setBookmarks(bookmarksData);
+
+  //         // Check for duplicates in the fetched data
+  //         const uniqueBookmarksData = Array.from(
+  //           new Set(bookmarksData.map((bookmark) => bookmark.url.trim()))
+  //         ).map((url) =>
+  //           bookmarksData.find((bookmark) => bookmark.url.trim() === url)
+  //         );
+
+  //         setBookmarks(uniqueBookmarksData);
+
+  //         if (url !== undefined) {
+  //           const existingBookmark = uniqueBookmarksData.find(
+  //             (bookmark) => bookmark.url.trim() === url.trim()
+  //           );
+
+  //           if (!existingBookmark) {
+  //             console.log("title, url Bookmark", title, url, user.uid);
+  //             await addDoc(bookmarksCollection, {
+  //               userId: user.uid,
+  //               title,
+  //               url,
+  //               timestamp: serverTimestamp(),
+  //             });
+  //             console.log("Bookmark added successfully", title);
+  //           } else {
+  //             // If the URL is already bookmarked, show an alert
+  //             Alert.alert(
+  //               "Bookmark Exists",
+  //               "This page is already bookmarked!"
+  //             );
+  //           }
+  //         }
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching bookmarks:", error);
+  //     }
+  //   };
+
+  //   fetchBookmarks();
+  // }, [user, title, url]);
 
   useEffect(() => {
     const fetchBookmarks = async () => {
@@ -63,6 +122,7 @@ const BookmarkScreen = ({ route }) => {
           );
 
           if (!existingBookmark) {
+            console.log("title, url Bookmark", title, url, user.uid);
             await addDoc(bookmarksCollection, {
               userId: user.uid,
               title,
@@ -86,36 +146,6 @@ const BookmarkScreen = ({ route }) => {
   const handleBookmarkPress = (itemUrl) => {
     navigation.navigate("WebView", { url: itemUrl });
   };
-
-  // const addBookmark = async () => {
-  //   try {
-  //     const bookmarksCollection = collection(db, "bookmarks");
-
-  //     // Check if the bookmark for the current URL already exists
-  //     const existingBookmark = bookmarks.find(
-  //       (bookmark) => bookmark.url.trim() === url.trim()
-  //     );
-
-  //     if (!existingBookmark) {
-  //       const newDocRef = await addDoc(bookmarksCollection, {
-  //         userId: user.uid,
-  //         title,
-  //         url,
-  //         timestamp: serverTimestamp(),
-  //       });
-  //       console.log("Bookmark added successfully");
-  //       setBookmarks((prevBookmarks) => [
-  //         ...prevBookmarks,
-  //         { id: newDocRef.id, title, url, timestamp: serverTimestamp() },
-  //       ]);
-  //     } else {
-  //       // If the URL is already bookmarked, show an alert
-  //       Alert.alert("Bookmark Exists", "This page is already bookmarked!");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error adding bookmark:", error);
-  //   }
-  // };
 
   const deleteBookmark = async (bookmarkId) => {
     try {

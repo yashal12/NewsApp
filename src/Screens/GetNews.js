@@ -14,7 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 
-const GetNews = ({ route }) => {
+const GetNews = () => {
   const navigation = useNavigation();
   const category = [
     "Business",
@@ -54,7 +54,7 @@ const GetNews = ({ route }) => {
         // console.log("Received data from API:", data);
         setCategoryNews((prevNews) => [...prevNews, ...data.articles]);
       } catch (error) {
-        console.error("Error:", error);
+        console.error("Error GetNews:", error);
       }
     };
 
@@ -63,7 +63,7 @@ const GetNews = ({ route }) => {
 
   // Log the categoryNews state whenever it changes
   useEffect(() => {
-    console.log("Category News:", categoryNews);
+    console.log("Category News from GetNews:", categoryNews);
   }, [categoryNews]);
 
   const renderItem = ({ item, index }) => (

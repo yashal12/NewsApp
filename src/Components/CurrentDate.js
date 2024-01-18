@@ -37,7 +37,9 @@ const styles = StyleSheet.create({
     fontSize: RFValue(12),
     color: "white",
     marginTop: 5,
-    backgroundColor: "#f4338f",
+    // backgroundColor: "#f4338f",
+    backgroundColor: "black",
+
     paddingVertical: 3,
     paddingHorizontal: 9,
     borderRadius: 10,

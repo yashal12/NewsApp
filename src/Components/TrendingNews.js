@@ -11,22 +11,28 @@ import {
 const { width } = Dimensions.get("window");
 
 // Component for displaying trending news
-function TrendingNews({ navigation }) {
+function TrendingNews({ route, navigation }) {
+  console.log("TrendingNews start");
+  // const { category } = route.params || {};
+  // console.log("route.params:", route.params);
+
   // State to store news data
   const [newsData, setNewsData] = useState([]);
+  console.log("trending start");
 
   // Fetching trending news data from the API
   useEffect(() => {
+    console.log("trending response");
     fetch(
       `https://gnews.io/api/v4/top-headlines?country=pk&apikey=17e3846c0655b3280c51ad059dcfcf4f`
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log("kkkk", data.title);
+        console.log("data.title TrendingNews", data.title);
 
         setNewsData(data.articles);
       })
-      .catch((error) => console.error("Error:", error));
+      .catch((error) => console.error("Error TrendingNews:", error));
   }, []);
 
   // Render each news item

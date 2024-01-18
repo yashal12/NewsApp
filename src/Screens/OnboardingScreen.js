@@ -39,6 +39,7 @@ function OnboardingScreen({ navigation }) {
   // Function to scroll to the next slide
   const scrollTo = () => {
     if (currentIndex < pages.length - 1) {
+      console.log("hi");
       slidesRef.current.scrollToIndex({ index: currentIndex + 1 });
     } else {
       console.log("Last item");

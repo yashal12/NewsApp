@@ -28,11 +28,11 @@ function App() {
     <NavigationContainer>
       {/* Stack Navigator for different screens */}
       <Stack.Navigator>
-        {/* <Stack.Screen
+        <Stack.Screen
           name="SplashScreen"
           component={SplashScreen}
           options={{ headerShown: false }}
-        /> */}
+        />
         {/* Onboarding Screen */}
         <Stack.Screen
           name="OnboardingScreen"
@@ -40,17 +40,17 @@ function App() {
           options={{ headerShown: false }}
         />
         {/* Start Screen */}
-        {/* <Stack.Screen
+        <Stack.Screen
           name="StartScreen"
           component={StartScreen}
           options={{ headerShown: false }}
-        /> */}
+        />
         {/* SignUp Screen */}
-        {/* <Stack.Screen
+        <Stack.Screen
           name="SignUp"
           component={SignUp}
           options={{ headerShown: false }}
-        /> */}
+        />
         {/* Login Screen */}
         <Stack.Screen
           name="Login"
@@ -64,44 +64,44 @@ function App() {
           options={{ headerShown: false }}
         />
         {/* GetNews Screen */}
-        {/* <Stack.Screen
+        <Stack.Screen
           name="Categories"
           component={Categories}
           options={{ headerShown: false }}
-        /> */}
-        {/* <Stack.Screen
+        />
+        <Stack.Screen
           name="TrendingNews"
           component={TrendingNews}
           options={{ headerShown: false }}
-        /> */}
+        />
         {/* WebView Screen */}
-        {/* <Stack.Screen
+        <Stack.Screen
           name="WebView"
           component={WebView}
           options={{ headerShown: false }}
-        /> */}
+        />
         {/* Bookmark Screen */}
-        {/* <Stack.Screen
+        <Stack.Screen
           name="BookmarkScreen"
           component={BookmarkScreen}
           options={{ headerShown: false }}
-        /> */}
+        />
         {/* Account Screen */}
-        {/* <Stack.Screen
+        <Stack.Screen
           name="Settings"
           component={Settings}
           options={{ headerShown: false }}
-        /> */}
+        />
         <Stack.Screen
           name="EditProfile"
           component={EditProfile}
           options={{ headerShown: false }}
         />
-        <Stack.Screen
+        {/* <Stack.Screen
           name="ChangePassword"
           component={ChangePassword}
           options={{ headerShown: false }}
-        />
+        /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

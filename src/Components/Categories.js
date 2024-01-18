@@ -37,7 +37,7 @@ const categoryColors = {
 };
 
 // Categories component for displaying news categories
-const Categories = ({ navigation }) => {
+const Categories = ({ route, navigation }) => {
   // Define keyExtractor function
   const keyExtractor = (item, index) => index.toString();
   // Define renderItem function
@@ -45,7 +45,11 @@ const Categories = ({ navigation }) => {
     <TouchableOpacity
       key={index}
       style={styles.categoryContainer}
-      onPress={() => navigation.navigate("TrendingNews", { category: item })}
+      onPress={() =>
+        navigation.navigate("TrendingNews", {
+          category: item,
+        })
+      }
     >
       {/* View representing each category */}
       <View
@@ -68,7 +72,8 @@ const Categories = ({ navigation }) => {
     <FlatList
       horizontal
       data={categories}
-      keyExtractor={keyExtractor}
+      // keyExtractor={keyExtractor}
+      keyExtractor={(item, index) => index.toString()}
       renderItem={renderItem}
       showsHorizontalScrollIndicator={false}
     />
